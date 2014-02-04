@@ -19,7 +19,7 @@
 #include "mouse.h"	// for the declaration of types, constants, variables and functions
 
 
-void AvoidObstacle()
+void AvoidObstacle()                                   
 {
     mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
 
