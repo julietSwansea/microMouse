@@ -91,7 +91,7 @@ void ControlSpeed(void)
         tmpRight = pwRight - (word)diff;        
     }
     */
-    if (diffLeft > diffRight) {
+    /*if (diffLeft > diffRight) {
         tmpLeft = pwLeft - 2;
         tmpRight = pwRight + 2;
     }
@@ -99,7 +99,7 @@ void ControlSpeed(void)
         tmpLeft = pwLeft + 2;
         tmpRight = pwRight - 2;      
     }
-     
+      */
     /*     
 	// if the new value is greater than pwMax or smaller than pwMin, recover the original value from TPM1 channel value register;
 	// otherwise, update the rigster with the new value.
@@ -110,7 +110,7 @@ void ControlSpeed(void)
 		pwRight = tmpRight;
 	}
 	*/
-	if (tmpLeft >= pwMax) {
+/*	if (tmpLeft >= pwMax) {
 		pwLeft = pwMax;
 	}
 	else if (tmpLeft <= pwMin) 
@@ -131,7 +131,7 @@ void ControlSpeed(void)
 	else 
 	{
 	    pwRight = tmpRight;
-	}
+	}  */
 
 	// finally call ControlMotor() to reflect the changed values of pwLeft and pwRight in PWM.
 	if (leftMotor == MOTOR_STATUS_FORWARD)
