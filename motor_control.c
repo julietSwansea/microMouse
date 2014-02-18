@@ -66,7 +66,7 @@ void ControlMotor(Motor motor, MotorAction action)
 void ControlSpeed(void)
 {
     //int diff;
-    word tmpLeft, tmpRight;
+    //word tmpLeft, tmpRight;
 
     /*
     diff = (int)diffLeft - (int)diffRight;
