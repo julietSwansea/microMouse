@@ -4,7 +4,7 @@
 /// @date       2012-02-21
 ///
 /// @brief      Implements functions for motor control.
-///
+///                                                                                                                                                               
 /// @remarks    This program is based on Dr Tim Davies' assembly version of
 ///             micro mouse program and the C port of it by Mr Gareth Evans.
 ///

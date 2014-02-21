@@ -32,26 +32,32 @@ void AvoidObstacle()
         
             ControlMouse(MOUSE_ACTION_FORWARD);
             // neither is touched (i.e., both the values are zero)
-            /*
+            
             // then check the status of IF sensors
             if (!infraredFrontLeft && !infraredFrontRight) {
                 // neither is touched (i.e., both the values are zero)
                 // then, back to the loop
+                ControlMouse(MOUSE_ACTION_FORWARD);
             }
             else if (infraredFrontLeft && !infraredFrontRight) {
                 // left sensor detects; avoid left obstacle
-
+                ControlMouse(MOUSE_ACTION_STOP);
+                Delay(300);
+                ControlMouse(MOUSE_ACTION_TURNRIGHT);
+                Delay(300);
             }
             else if (!infraredFrontLeft && infraredFrontRight) {
                 // right sensor detects; avoid right obstacle
-
+                ControlMouse(MOTOR_ACTION_STOP);
+                Delay(300);                ControlMouse(MOUSE_ACTION_TURNLEFT);
+                Delay(300);
             }
             else {
                 // both sensors detect; avoid front obstacle
                 ControlMouse(MOUSE_ACTION_STOP);
                 ControlMouse(MOUSE_ACTION_REVERSE);
                 ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
-            } */
+            } 
         }     
         
       else if (!touchBarFrontLeft && touchBarFrontRight) {
