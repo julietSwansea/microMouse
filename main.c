@@ -210,12 +210,12 @@ void main(void)
     PTADD = 0x00;   // set port A as input
 
    
-    tbfl = touchBarFrontLeft;
-    tbfr = touchBarFrontRight;
+    //tbfl = touchBarFrontLeft;
+    //tbfr = touchBarFrontRight;
    
     
-    //tbfl = 1;
-    //tbfr = 1;
+    tbfl = 1;
+    tbfr = 1;
     if ((tbfl == 0) && (tbfr == 0)) {
         mouseMode = MOUSE_MODE_DEBUG;
         Test();

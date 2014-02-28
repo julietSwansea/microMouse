@@ -119,14 +119,46 @@ void AvoidObstacle()
 
 void LineFollowing ()
 {
-    mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
+     #define black 0
+     #define white 1
+    
 
+    byte v_fl=0,v_fr,v_rl,v_rr; //ldr thresholds
+    byte ldr_fl=0,ldr_fr=0,ldr_rl=0,ldr_rr=0; // ldr adc variables  
+    
+    
+        mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
+    
+  
     for (;;) {
+        
+       byte gh = 0b00000000;
+       
+       ldr_fl = ADCRead(0b00000000);
+        
+        gh = 0b00000001;
+        
+        ldr_fr = ADCRead(0b00000001);
+        
+        gh = 0b00000010;
+        
+        ldr_rl = ADCRead(0b00000010);
+       
+        gh = 0b00000011;
+        
+        ldr_rr = ADCRead( 0b00000011);
+        
+        if(ldr_fl>v_fl)ldr_fl=1; else ldr_fl=0;
+        
+        
+        
+        
+        
         // first move forward
         ControlMouse(MOUSE_ACTION_FORWARD);
 
         // first, check the status of touch bars
-        if (!touchBarFrontLeft && !touchBarFrontRight) {
+        if (!ldr_fl && !ldr_fr) {
             // neither is touched (i.e., both the values are zero)
 
             // then check the status of IF sensors
@@ -168,7 +200,7 @@ void LineFollowing ()
             ControlMouse(MOUSE_ACTION_REVERSE);
             ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
         }
-    } // end of for() loop
+    }// end of for() loop
 }
 
 
@@ -299,10 +331,10 @@ void Test()
 
 
 // ADC test mode for line following sensors
-void ADCTest()
+/*void ADCTest()
 {
     while (1)
     {
         ADCRead();
     }
-}
+}  */
