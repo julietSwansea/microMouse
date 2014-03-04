@@ -118,33 +118,63 @@ void AvoidObstacle()
 
 
 void LineFollowing ()
-{
-     #define black 0
-     #define white 1
+{    
+     //#define black 0
+     //#define white 1
+   
     
-
-    byte v_fl=0,v_fr,v_rl,v_rr; //ldr thresholds
-    byte ldr_fl=0,ldr_fr=0,ldr_rl=0,ldr_rr=0; // ldr adc variables  
+    byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
+    byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
+    byte tmp // ldr adc variables  
     
     
-        mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
-    
+    mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
+  
+  // threshold    
+  if (touchBarFrontLeft) {
+    // on the black surface
+    byte fl_max = ADCRead(0x00);
+   
+   
+    while (touchBarFrontLeft) {
+    }
+    // on the white surface
+    byte fl_min = ADCRead(0x00);
+  }
+  byte flTH = (fl_max + fl_min)/2;
+  
+  
   
     for (;;) {
+       
+       // first move forward
+        ControlMouse(MOUSE_ACTION_FORWARD);
         
-       byte gh = 0b00000000;
+       // ADC
+       tmp = ADCRead(0x00);
+       /*
+       if (tmp < flTH) {
+        fl = 0;
+       else
+        fl = 1;
+       }
+       */
+       fl = tmp < flTH ? 0 : 1; 
+       
+       
+      // byte gh 
        
        ldr_fl = ADCRead(0b00000000);
         
-        gh = 0b00000001;
+       // gh = 0b00000001;
         
         ldr_fr = ADCRead(0b00000001);
         
-        gh = 0b00000010;
+       // gh = 0b00000010;
         
         ldr_rl = ADCRead(0b00000010);
        
-        gh = 0b00000011;
+       // gh = 0b00000011;
         
         ldr_rr = ADCRead( 0b00000011);
         
@@ -152,10 +182,9 @@ void LineFollowing ()
         
         
         
+  
+   }
         
-        
-        // first move forward
-        ControlMouse(MOUSE_ACTION_FORWARD);
 
         // first, check the status of touch bars
         if (!ldr_fl && !ldr_fr) {
