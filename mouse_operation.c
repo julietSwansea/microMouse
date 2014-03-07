@@ -119,31 +119,41 @@ void AvoidObstacle()
 
 void LineFollowing ()
 {    
-     //#define black 0
-     //#define white 1
+     //#define black 1
+     //#define white 0
    
-    
+    byte fl,fr,rl,rr;
     byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
     byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
-    byte tmp // ldr adc variables  
+    byte tmp; // ldr adc variables  
     
     
-    mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
-  
-  // threshold    
+   // threshold    
   if (touchBarFrontLeft) {
     // on the black surface
-    byte fl_max = ADCRead(0x00);
-   
-   
+    fl_max = ADCRead(0x00);
+    fr_max = ADCRead(0x01);
+    rl_max = ADCRead(0x10);
+    rr_max = ADCRead(0x11);
+    
     while (touchBarFrontLeft) {
     }
+    
     // on the white surface
-    byte fl_min = ADCRead(0x00);
-  }
-  byte flTH = (fl_max + fl_min)/2;
+    fl_min = ADCRead(0x00);
+    fr_min = ADCRead(0x01);
+    rl_min = ADCRead(0x10);
+    rr_min = ADCRead(0x11);    
+    }
   
   
+  flTH = (fl_max + fl_min)/2;
+  frTH = (fr_max + fr_min)/2;
+  rlTH = (rl_max + rl_min)/2; 
+  rrTH = (rl_max + rr_min)/2;
+//}
+    
+    mouseMode = MOUSE_MODE_LINE_FOLLOWING;
   
     for (;;) {
        
@@ -154,55 +164,48 @@ void LineFollowing ()
        tmp = ADCRead(0x00);
        /*
        if (tmp < flTH) {
-        fl = 0;
+        fl = 0; // white
        else
-        fl = 1;
+        fl = 1; // black
        }
        */
-       fl = tmp < flTH ? 0 : 1; 
+       fl = tmp < flTH ? 0 : 1;
+       
+       tmp = ADCRead(0x01);      
+       fr = tmp < frTH ? 0 : 1;
+       
+       tmp = ADCRead(0x10); 
+       rl = tmp < rlTH ? 0 : 1;
+       
+       tmp = ADCRead(0x11);
+       
+       rr = tmp < rrTH ? 0 : 1;
        
        
-      // byte gh 
-       
-       ldr_fl = ADCRead(0b00000000);
-        
-       // gh = 0b00000001;
-        
-        ldr_fr = ADCRead(0b00000001);
-        
-       // gh = 0b00000010;
-        
-        ldr_rl = ADCRead(0b00000010);
-       
-       // gh = 0b00000011;
-        
-        ldr_rr = ADCRead( 0b00000011);
-        
-        if(ldr_fl>v_fl)ldr_fl=1; else ldr_fl=0;
-        
-        
-        
   
-   }
+   //}
         
 
         // first, check the status of touch bars
-        if (!ldr_fl && !ldr_fr) {
-            // neither is touched (i.e., both the values are zero)
-
+        if (fl && fr && rl && rr ) {
+             ControlMouse(MOTOR_ACTION_FORWARD);
+            // all is touched (i.e., both the values are one)
+        }
             // then check the status of IF sensors
-            if (!infraredFrontLeft && !infraredFrontRight) {
-                // neither is touched (i.e., both the values are zero)
-                // then, back to the loop
-                break;
+            else if (fl && !fr) {
+                // right whiteline detects 
+                ControlMouse(MOUSE_ACTION_TURNLEFT); 
+                Delay(50);                
             }
-            else if (infraredFrontLeft) {
-                // left sensor detects; avoid left obstacle
-
+            else if (!fl && fr) {
+                // left whiteline detects
+                ControlMouse(MOUSE_ACTION_TURNRIGHT);
+                Delay(50);
             }
-            else if (infraredFrontRight) {
+            else if (rl && !rr) {
                 // right sensor detects; avoid right obstacle
-
+                ControlMouse(MOUSE_ACTION_TURNLEFT);
+                Delay(50);
             }
             else {
                 // both sensors detect; avoid front obstacle
@@ -210,25 +213,8 @@ void LineFollowing ()
                 ControlMouse(MOUSE_ACTION_REVERSE);
                 ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
             }
-        }
-        else if (touchBarFrontLeft) {
-            // left bar is touched; avoid left obstacle
-            ControlMouse(MOUSE_ACTION_STOP);
-            ControlMouse(MOUSE_ACTION_REVERSE);
-            ControlMouse(MOUSE_ACTION_TURNRIGHT);
-        }
-        else if (touchBarFrontRight) {
-            // right bar is touched; avoid right obstacle
-            ControlMouse(MOUSE_ACTION_STOP);
-            ControlMouse(MOUSE_ACTION_REVERSE);
-            ControlMouse(MOUSE_ACTION_TURNLEFT);
-        }
-        else {
-            // both bars are touched; avoid front obstacle
-            ControlMouse(MOUSE_ACTION_STOP);
-            ControlMouse(MOUSE_ACTION_REVERSE);
-            ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
-        }
+       
+      
     }// end of for() loop
 }
 
