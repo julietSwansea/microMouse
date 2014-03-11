@@ -125,16 +125,17 @@ void LineFollowing ()
     byte fl,fr,rl,rr;
     byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
     byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
-    byte tmp; // ldr adc variables  
+    byte tmp=0; // ldr adc variables  
     
+  while(tmp==0){
     
    // threshold    
   if (touchBarFrontLeft) {
     // on the black surface
     fl_max = ADCRead(0x00);
     fr_max = ADCRead(0x01);
-    rl_max = ADCRead(0x10);
-    rr_max = ADCRead(0x11);
+    rl_max = ADCRead(0x02);
+    rr_max = ADCRead(0x03);
     
     while (touchBarFrontLeft) {
     }
@@ -142,9 +143,11 @@ void LineFollowing ()
     // on the white surface
     fl_min = ADCRead(0x00);
     fr_min = ADCRead(0x01);
-    rl_min = ADCRead(0x10);
-    rr_min = ADCRead(0x11);    
+    rl_min = ADCRead(0x02);
+    rr_min = ADCRead(0x03);
+    tmp=1;    
     }
+  }
   
   
   flTH = (fl_max + fl_min)/2;
@@ -164,20 +167,22 @@ void LineFollowing ()
        tmp = ADCRead(0x00);
        /*
        if (tmp < flTH) {
-        fl = 0; // white
+        fl = 1; // white
        else
-        fl = 1; // black
+        fl = 0; // black
        }
        */
        fl = tmp < flTH ? 0 : 1;
        
-       tmp = ADCRead(0x01);      
+       tmp = ADCRead(0x01);
+      
        fr = tmp < frTH ? 0 : 1;
        
-       tmp = ADCRead(0x10); 
+       tmp = ADCRead(0x02);
+ 
        rl = tmp < rlTH ? 0 : 1;
        
-       tmp = ADCRead(0x11);
+       tmp = ADCRead(0x03);
        
        rr = tmp < rrTH ? 0 : 1;
        
@@ -187,7 +192,7 @@ void LineFollowing ()
         
 
         // first, check the status of touch bars
-        if (fl && fr && rl && rr ) {
+        if (fl && fr ) {
              ControlMouse(MOTOR_ACTION_FORWARD);
             // all is touched (i.e., both the values are one)
         }
@@ -202,18 +207,13 @@ void LineFollowing ()
                 ControlMouse(MOUSE_ACTION_TURNRIGHT);
                 Delay(50);
             }
-            else if (rl && !rr) {
+            else if (!fl && !fr) {
                 // right sensor detects; avoid right obstacle
-                ControlMouse(MOUSE_ACTION_TURNLEFT);
+                ControlMouse(MOUSE_ACTION_FORWARD);
                 Delay(50);
             }
-            else {
-                // both sensors detect; avoid front obstacle
-                ControlMouse(MOUSE_ACTION_STOP);
-                ControlMouse(MOUSE_ACTION_REVERSE);
-                ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
-            }
-       
+           
+           
       
     }// end of for() loop
 }

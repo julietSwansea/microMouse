@@ -57,7 +57,7 @@ void Delay(int a)
 //------------------------------------------------------------------------------
 byte ADCRead(byte PortLocation)
 {
-    word value;
+    byte value;
     
     ADC1SC1 = PortLocation;   // read from PTB0; change it for your own configuration
     
