@@ -48,7 +48,7 @@ void AvoidObstacle()
             }
             else if (!infraredFrontLeft && infraredFrontRight) {
                 // right sensor detects; avoid right obstacle
-                ControlMouse(MOTOR_ACTION_STOP);
+                ControlMouse(MOUSE_ACTION_STOP);
                 Delay(300);
                 ControlMouse(MOUSE_ACTION_TURNLEFT);
                 Delay(300);
@@ -192,10 +192,10 @@ void LineFollowing ()
       
         // first, check the status of touch bars
         if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
-             ControlMouse(MOTOR_ACTION_FORWARD);
+             ControlMouse(MOUSE_ACTION_FORWARD);
             // all is touched (i.e., both the values are one)
         }
-            // then check the status of IF sensors
+            // then check the status of LDR sensors
             else if (fl == 1 && fr == 0) {
                 // front left whiteline detects 
                 ControlMouse(MOUSE_ACTION_TURNLEFT); 
@@ -216,9 +216,16 @@ void LineFollowing ()
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
             Delay(30);
             }
-            else if (fr ==
-              
-           
+            else if (fr == 1 && rl == 1){
+            // front right and rear left detects
+            ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            Delay(30);
+            } 
+            else if (fl == 1 && rr == 1){
+              // front left and rear right detects
+              ControlMouse(MOUSE_ACTION_TURNLEFT);
+              Delay(30);
+            }     
            
       
     }// end of for() loop
