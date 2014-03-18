@@ -120,12 +120,15 @@ void AvoidObstacle()
 void LineFollowing ()
 {    
      //#define black 1
-     //#define white 0
-   
+     //#define white 0   
     byte fl,fr,rl,rr;
     byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
     byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
     byte tmp=0; // ldr adc variables  
+    
+    // speed control
+    pwLeft = (word)(0.6*defaultSpeed);
+    pwRight = (word)(0.6*defaultSpeed);
     
   while(tmp==0){
     
@@ -197,15 +200,21 @@ void LineFollowing ()
         }
             // then check the status of LDR sensors
             else if (fl == 1 && fr == 0) {
+            //while(fl == 1 && fr == 0){
+              
                 // front left whiteline detects 
                 ControlMouse(MOUSE_ACTION_TURNLEFT); 
                 Delay(30);                
+            //}
             }
             else if (fl == 0 && fr == 1) {
+               //while(fl == 0 && fr == 1){
+                
                 // front right whiteline detects
                 ControlMouse(MOUSE_ACTION_TURNRIGHT);
                 Delay(30);
-            }
+               //}
+            }  
             else if (rl == 1 && rr == 0) {
                 // rear left detects; avoid right obstacle
                 ControlMouse(MOUSE_ACTION_TURNLEFT);
