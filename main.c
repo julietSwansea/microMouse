@@ -2,8 +2,7 @@
 /// @file       main.c
 /// @authors    Kyeong Soo (Joseph) Kim <k.s.kim@swansea.ac.uk>
 ///             Uche-Olowu Sandra <673188@swansea.ac.uk>
-///             CHEUNG, Long Ting <746047@swansea.ac.uk>
-/// @date       2012-02-21
+///             /// @date       2012-02-21
 ///
 /// @brief      Main part of the micro mouse program
 ///
@@ -216,8 +215,8 @@ void main(void)
     
     tbfl = 1;
     tbfr = 1;
-    tbrr=0;
-    tbrl=1;
+    //tbrr=0;
+    // tbrl=1;
     if ((tbfl == 0) && (tbfr == 0)) {
         mouseMode = MOUSE_MODE_DEBUG;
         Test();
@@ -226,7 +225,7 @@ void main(void)
         mouseMode = MOUSE_MODE_COMBAT;
         Combat();
     }
-    else if ((tbrl == 1) && (tbrr == 0)) {
+    else if ((tbfl == 1) && (tbfr == 0)) {
         mouseMode = MOUSE_MODE_LINE_FOLLOWING;
         LineFollowing();
     }

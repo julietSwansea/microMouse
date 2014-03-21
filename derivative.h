@@ -4,7 +4,7 @@
  */
 
 /* Include the derivative-specific header file */
-#include <MC9S08AW60.h>
+#include <MC9S08AW48.h>
 
 #define _Stop asm ( stop; )
   /*!< Macro to enter stop modes, STOPE bit in SOPT1 register must be set prior to executing this macro */
