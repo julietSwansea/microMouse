@@ -167,7 +167,7 @@ void main(void)
 
     // for motor speed control with timer overflow interrupt of TPM2
     TPM2SC = 0b01001000;    // enable timer overflow and input capture on bus rate clock
-     TPM2MOD = (word)(controlPeriod * busClock * 1000);  // set motor speed control period
+    TPM2MOD = (word)(controlPeriod * busClock * 1000);  // set motor speed control period
     TPM2C0SC = 0b01000100;  // enable interrups on positive edge for PTF4 (left tachometer)
     TPM2C1SC = 0b01000100;  // enable interrups on positive edge for PTF5 (right tachometer)
     diffLeft = 0;           // difference between two consecutive counter values for left motor
@@ -214,7 +214,7 @@ void main(void)
    
     
     tbfl = 1;
-    tbfr = 1;
+    tbfr = 0;
     //tbrr=0;
     // tbrl=1;
     if ((tbfl == 0) && (tbfr == 0)) {

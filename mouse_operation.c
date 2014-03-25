@@ -199,18 +199,18 @@ void LineFollowing ()
             // all is touched (i.e., both the values are one)
         }
             // then check the status of LDR sensors
-            else if (fl == 1 && fr == 0) {
-            //while(fl == 1 && fr == 0){
+            else if (fl == 1 && fr == 0){
               
-                // front left whiteline detects 
+                ControlMouse(MOUSE_ACTION_STOP);
+                Delay(30);
                 ControlMouse(MOUSE_ACTION_TURNLEFT); 
                 Delay(30);                
-            //}
+            
             }
-            else if (fl == 0 && fr == 1) {
-               //while(fl == 0 && fr == 1){
-                
-                // front right whiteline detects
+            else if (fl == 0 && fr == 1) {     
+               //while(fl == 0 && fr == 1)
+                ControlMouse(MOUSE_ACTION_STOP);
+                Delay(30);
                 ControlMouse(MOUSE_ACTION_TURNRIGHT);
                 Delay(30);
                //}
@@ -224,18 +224,23 @@ void LineFollowing ()
             // rear right white line detects
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
             Delay(30);
-            }
+            }  
             else if (fr == 1 && rl == 1){
             // front right and rear left detects
+             ControlMouse(MOUSE_ACTION_STOP);
+                Delay(30);
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
             Delay(30);
             } 
             else if (fl == 1 && rr == 1){
               // front left and rear right detects
+               ControlMouse(MOUSE_ACTION_STOP);
+                Delay(30);
               ControlMouse(MOUSE_ACTION_TURNLEFT);
               Delay(30);
-            }     
-           
+            } 
+            
+               
       
     }// end of for() loop
 }
