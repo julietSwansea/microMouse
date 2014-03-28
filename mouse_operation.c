@@ -124,7 +124,10 @@ void LineFollowing ()
     byte fl,fr,rl,rr;
     byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
     byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
-    byte tmp=0; // ldr adc variables  
+    byte tmp=0; // ldr adc variables 
+    byte black=1;
+    byte white=0;
+     
     
     // speed control
     pwLeft = (word)(0.6*defaultSpeed);
@@ -163,19 +166,11 @@ void LineFollowing ()
   
     for (;;) {
        
-       // first move forward
-        ControlMouse(MOUSE_ACTION_FORWARD);
         
        // ADC
        tmp = ADCRead(0x00);
-       /*
-       if (tmp < flTH) {
-        fl = 1; // white
-       else
-        fl = 0; // black
-       }
-       */
-       fl = tmp < flTH ? 0 : 1; // 0 -> black; 1 -> white
+
+       fl = tmp < flTH ? 0 : 1; // 1 -> black; 0 -> white
        
        tmp = ADCRead(0x01);
       
@@ -189,58 +184,92 @@ void LineFollowing ()
        
        rr = tmp < rrTH ? 0 : 1;
        
+     
+     
        
-  
-   //}
+      if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+            ControlMouse(MOUSE_ACTION_FORWARD);
+        } else if (fl == 0 && fr == 1){
+            //ControlMouse(MOUSE_ACTION_BRAKE); 
+            ControlMouse(MOUSE_ACTION_TURNLEFT);
+            Delay(10);                 
+        } else if (fl == 1 && fr == 0) {     
+            //ControlMouse(MOUSE_ACTION_BRAKE);
+            ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            Delay(10);
+        } else if (rl == 1 && rr == 0){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          
+          ControlMouse(MOUSE_ACTION_TURNLEFT); 
+          Delay(40);
+        } else if (rl == 0 && rr == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE); 
+          
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(40);
+        } else if (fr == 0 && rl == 0){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(40);
+        } else if (fl == 0 && fr  == 0){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          
+          ControlMouse(MOUSE_ACTION_TURNLEFT);
+          Delay(40);
+        }         
       
-        // first, check the status of touch bars
-        if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
-             ControlMouse(MOUSE_ACTION_FORWARD);
-            // all is touched (i.e., both the values are one)
-        }
-            // then check the status of LDR sensors
-            else if (fl == 1 && fr == 0){
-              
-                ControlMouse(MOUSE_ACTION_STOP);
-                Delay(30);
-                ControlMouse(MOUSE_ACTION_TURNLEFT); 
-                Delay(30);                
+      
+      
+        /*if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
+            ControlMouse(MOUSE_ACTION_FORWARD);
+        } else if (fl == 1 && fr == 0){    
+            //ControlMouse(MOUSE_ACTION_STOP);
+            //Delay(80);
+            ControlMouse(MOUSE_ACTION_TURNLEFT); 
+            //Delay(80);                
+        } else if (fl == 0 && fr == 1) {     
+            //ControlMouse(MOUSE_ACTION_STOP);
+            //Delay(80);
+            ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            //Delay(80);
+        } else {
+            ControlMouse(MOUSE_ACTION_REVERSE);
+        }  */
+         
             
-            }
-            else if (fl == 0 && fr == 1) {     
-               //while(fl == 0 && fr == 1)
+            
+             
+          /*  else if (rl == 1 && rr == 0) {
+                // rear left detects; avoid right obstacle 
                 ControlMouse(MOUSE_ACTION_STOP);
-                Delay(30);
-                ControlMouse(MOUSE_ACTION_TURNRIGHT);
-                Delay(30);
-               //}
-            }  
-            else if (rl == 1 && rr == 0) {
-                // rear left detects; avoid right obstacle
+                //Delay(80);
                 ControlMouse(MOUSE_ACTION_TURNLEFT);
-                Delay(30);
+                //Delay(80);
             } 
             else if (rl == 0 && rr == 1){
-            // rear right white line detects
+            // rear right white line detects 
+            ControlMouse(MOUSE_ACTION_STOP);
+            //Delay(80);
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            Delay(30);
+            //Delay(80);
             }  
             else if (fr == 1 && rl == 1){
             // front right and rear left detects
-             ControlMouse(MOUSE_ACTION_STOP);
-                Delay(30);
+            ControlMouse(MOUSE_ACTION_STOP);
+            //Delay(80);
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            Delay(30);
+            //Delay(80);
             } 
             else if (fl == 1 && rr == 1){
               // front left and rear right detects
-               ControlMouse(MOUSE_ACTION_STOP);
-                Delay(30);
-              ControlMouse(MOUSE_ACTION_TURNLEFT);
-              Delay(30);
-            } 
-            
-               
+             ControlMouse(MOUSE_ACTION_STOP);
+             Delay(80);
+             ControlMouse(MOUSE_ACTION_TURNLEFT);
+             Delay(80);
+            }   */
+    
+                 
       
     }// end of for() loop
 }
