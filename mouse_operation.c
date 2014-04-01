@@ -137,7 +137,7 @@ void LineFollowing ()
     
    // threshold    
   if (touchBarFrontLeft) {
-    // on the black surface
+    // on the white surface
     fl_max = ADCRead(0x00);
     fr_max = ADCRead(0x01);
     rl_max = ADCRead(0x02);
@@ -146,7 +146,7 @@ void LineFollowing ()
     while (touchBarFrontLeft) {
     }
     
-    // on the white surface
+    // on the black surface
     fl_min = ADCRead(0x00);
     fr_min = ADCRead(0x01);
     rl_min = ADCRead(0x02);
@@ -156,10 +156,10 @@ void LineFollowing ()
   }
   
   
-  flTH = (fl_max + fl_min)/2;
-  frTH = (fr_max + fr_min)/2;
-  rlTH = (rl_max + rl_min)/2; 
-  rrTH = (rl_max + rr_min)/2;
+  flTH = (byte)((fl_max + fl_min)/2.0);
+  frTH = (byte)((fr_max + fr_min)/2.0);
+  rlTH = (byte)((rl_max + rl_min)/2.0); 
+  rrTH = (byte)((rl_max + rr_min)/2.0);
 //}
     
     mouseMode = MOUSE_MODE_LINE_FOLLOWING;
@@ -170,7 +170,7 @@ void LineFollowing ()
        // ADC
        tmp = ADCRead(0x00);
 
-       fl = tmp < flTH ? 0 : 1; // 1 -> black; 0 -> white
+       fl = tmp < flTH ? 0 : 1; // 1 -> white; 0 -> black
        
        tmp = ADCRead(0x01);
       
@@ -187,39 +187,65 @@ void LineFollowing ()
      
      
        
-      if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+      if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
             ControlMouse(MOUSE_ACTION_FORWARD);
-        } else if (fl == 0 && fr == 1){
-            //ControlMouse(MOUSE_ACTION_BRAKE); 
+            //Delay(10);
+        } 
+        
+        /*else if (fl == 1 && fr == 0){
+            ControlMouse(MOUSE_ACTION_BRAKE); 
+            //Delay(5);
+            ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            Delay(10);                 
+        }
+         else if (fl == 0 && fr == 1){
+            ControlMouse(MOUSE_ACTION_BRAKE); 
+            //Delay(5);
             ControlMouse(MOUSE_ACTION_TURNLEFT);
             Delay(10);                 
-        } else if (fl == 1 && fr == 0) {     
-            //ControlMouse(MOUSE_ACTION_BRAKE);
+        }
+        else {
+               //ControlMouse(MOUSE_ACTION_STOP); 
+               //Delay(50);
+            ControlMouse(MOUSE_ACTION_FORWARD);
+            //Delay(20);
+        }       */
+        
+         //start here
+        
+        else if (fl == 0 && fr == 1){
+            ControlMouse(MOUSE_ACTION_BRAKE); 
+            Delay(1);
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            Delay(10);
+            Delay(5);                 
+        } else if (fl == 1 && fr == 0) {     
+            ControlMouse(MOUSE_ACTION_BRAKE);
+            Delay(1);
+            ControlMouse(MOUSE_ACTION_TURNLEFT);
+            Delay(5);
         } else if (rl == 1 && rr == 0){
           ControlMouse(MOUSE_ACTION_BRAKE);
-          
+           Delay(1);
           ControlMouse(MOUSE_ACTION_TURNLEFT); 
-          Delay(40);
+          Delay(5);
         } else if (rl == 0 && rr == 1){
           ControlMouse(MOUSE_ACTION_BRAKE); 
-          
+           Delay(1);
           ControlMouse(MOUSE_ACTION_TURNRIGHT);
-          Delay(40);
+          Delay(5);
         } else if (fr == 0 && rl == 0){
           ControlMouse(MOUSE_ACTION_BRAKE);
-          
+           Delay(1);
           ControlMouse(MOUSE_ACTION_TURNRIGHT);
-          Delay(40);
+          Delay(5);
         } else if (fl == 0 && fr  == 0){
           ControlMouse(MOUSE_ACTION_BRAKE);
-          
+          Delay(1);
           ControlMouse(MOUSE_ACTION_TURNLEFT);
-          Delay(40);
+          Delay(5);
         }         
       
-      
+           //end here
       
         /*if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
             ControlMouse(MOUSE_ACTION_FORWARD);
@@ -271,7 +297,7 @@ void LineFollowing ()
     
                  
       
-    }// end of for() loop
+    }// end of for() loop;
 }
 
 

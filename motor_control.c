@@ -56,19 +56,21 @@ void ControlMotor(Motor motor, MotorAction action)
     }
 
     if (motor == MOTOR_LEFT) {
-        TPM1C2V=tpm1;
-        TPM1C3V=tpm2;
-        leftMotor = status;
-    } else {
         TPM1C4V=tpm1;
         TPM1C5V=tpm2;
+        leftMotor = status;
+    } else {
+        TPM1C2V=tpm1;
+        TPM1C3V=tpm2;
         rightMotor= status;
     }
 }
 
+void ControlSpeed(void) {
+}
 
 // main speed control function called by TPM2 timer overflow ISR
-void ControlSpeed(void)
+void ControlSpeed_old(void)
 {
     //int diff;
     //word tmpLeft, tmpRight;
