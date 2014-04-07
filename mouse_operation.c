@@ -20,7 +20,7 @@
 
 
 void AvoidObstacle()                                   
-{
+{                                                                                                                                                           
     mouseMode = MOUSE_MODE_OBSTACLE_AVOIDING;
 
     for (;;) {
@@ -125,8 +125,8 @@ void LineFollowing ()
     byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
     byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
     byte tmp=0; // ldr adc variables 
-    byte black=1;
-    byte white=0;
+    byte black=0;
+    byte white=1;
      
     
     // speed control
@@ -187,113 +187,103 @@ void LineFollowing ()
      
      
        
-      if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
+      if (fl == 1 && fr == 1 && rl == 0 && rr == 0 ) {
             ControlMouse(MOUSE_ACTION_FORWARD);
-            //Delay(10);
-        } 
+      }
         
-        /*else if (fl == 1 && fr == 0){
-            ControlMouse(MOUSE_ACTION_BRAKE); 
-            //Delay(5);
-            ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            Delay(10);                 
-        }
-         else if (fl == 0 && fr == 1){
-            ControlMouse(MOUSE_ACTION_BRAKE); 
-            //Delay(5);
-            ControlMouse(MOUSE_ACTION_TURNLEFT);
-            Delay(10);                 
-        }
-        else {
-               //ControlMouse(MOUSE_ACTION_STOP); 
-               //Delay(50);
-            ControlMouse(MOUSE_ACTION_FORWARD);
-            //Delay(20);
-        }       */
         
          //start here
         
-        else if (fl == 0 && fr == 1){
+       else if (fl == 0 && fr == 1){
             ControlMouse(MOUSE_ACTION_BRAKE); 
             Delay(1);
             ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            Delay(5);                 
+            //Delay(5);                 
         } else if (fl == 1 && fr == 0) {     
             ControlMouse(MOUSE_ACTION_BRAKE);
             Delay(1);
             ControlMouse(MOUSE_ACTION_TURNLEFT);
-            Delay(5);
+            //Delay(5);
         } else if (rl == 1 && rr == 0){
           ControlMouse(MOUSE_ACTION_BRAKE);
            Delay(1);
-          ControlMouse(MOUSE_ACTION_TURNLEFT); 
-          Delay(5);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT); 
+          //Delay(5);
         } else if (rl == 0 && rr == 1){
           ControlMouse(MOUSE_ACTION_BRAKE); 
            Delay(1);
-          ControlMouse(MOUSE_ACTION_TURNRIGHT);
-          Delay(5);
-        } else if (fr == 0 && rl == 0){
+          ControlMouse(MOUSE_ACTION_TURNLEFT);
+          //Delay(5);
+        } else if (fr == 0 && rl == 1){
           ControlMouse(MOUSE_ACTION_BRAKE);
-           Delay(1);
+          Delay(1);
           ControlMouse(MOUSE_ACTION_TURNRIGHT);
-          Delay(5);
-        } else if (fl == 0 && fr  == 0){
+          //Delay(5);
+        } else if (fl == 0 && fr  == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(1);
+          ControlMouse(MOUSE_ACTION_TURNLEFT);
+          //Delay(5);
+        } 
+       else if (fl == 0 && fr  == 0){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(50);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(50);
+        } 
+        else if (fl == 0 && fr == 0 && rl == 1 && rr == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(100);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(50);
+        } else if (fl == 0 && fr == 0 && rl == 1 && rr == 0){
           ControlMouse(MOUSE_ACTION_BRAKE);
           Delay(1);
           ControlMouse(MOUSE_ACTION_TURNLEFT);
           Delay(5);
-        }         
+        } else if (fl == 0 && fr == 0 && rl == 0 && rr == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(50);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(5);
+        } else if (fl == 1 && fr == 0 && rl == 1 && rr == 0){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(1);
+          ControlMouse(MOUSE_ACTION_TURNLEFT);
+          Delay(5);
+        } else if (fl == 0 && fr == 1 && rl == 1 && rr == 0){
+          ControlMouse(MOTOR_ACTION_BRAKE);
+          Delay(1);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(5);
+        } else if (fl == 0 && fr == 1 && rl == 1 && rr == 1){
+          ControlMouse(MOTOR_ACTION_BRAKE);
+          Delay(1);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(5);
+        } else if (fl == 0 && fr == 1 && rl == 0 && rr == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(1);
+          ControlMouse(MOUSE_ACTION_TURNRIGHT);
+          Delay(5);
+        } else if (fl == 1 && fr == 1 && rl == 0 && fr == 1){
+          ControlMouse(MOUSE_ACTION_BRAKE);
+          Delay(4);
+          ControlMouse(MOUSE_ACTION_TURNLEFT);
+          Delay(5);
+        } 
+        
+        else                
+              {
+              
+              ControlMouse(MOUSE_ACTION_FORWARD) ;
+              
+              
+              }
       
            //end here
       
-        /*if (fl == 0 && fr == 0 && rl == 0 && rr == 0 ) {
-            ControlMouse(MOUSE_ACTION_FORWARD);
-        } else if (fl == 1 && fr == 0){    
-            //ControlMouse(MOUSE_ACTION_STOP);
-            //Delay(80);
-            ControlMouse(MOUSE_ACTION_TURNLEFT); 
-            //Delay(80);                
-        } else if (fl == 0 && fr == 1) {     
-            //ControlMouse(MOUSE_ACTION_STOP);
-            //Delay(80);
-            ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            //Delay(80);
-        } else {
-            ControlMouse(MOUSE_ACTION_REVERSE);
-        }  */
-         
-            
-            
-             
-          /*  else if (rl == 1 && rr == 0) {
-                // rear left detects; avoid right obstacle 
-                ControlMouse(MOUSE_ACTION_STOP);
-                //Delay(80);
-                ControlMouse(MOUSE_ACTION_TURNLEFT);
-                //Delay(80);
-            } 
-            else if (rl == 0 && rr == 1){
-            // rear right white line detects 
-            ControlMouse(MOUSE_ACTION_STOP);
-            //Delay(80);
-            ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            //Delay(80);
-            }  
-            else if (fr == 1 && rl == 1){
-            // front right and rear left detects
-            ControlMouse(MOUSE_ACTION_STOP);
-            //Delay(80);
-            ControlMouse(MOUSE_ACTION_TURNRIGHT);
-            //Delay(80);
-            } 
-            else if (fl == 1 && rr == 1){
-              // front left and rear right detects
-             ControlMouse(MOUSE_ACTION_STOP);
-             Delay(80);
-             ControlMouse(MOUSE_ACTION_TURNLEFT);
-             Delay(80);
-            }   */
+       
     
                  
       
@@ -303,7 +293,375 @@ void LineFollowing ()
 
 void Combat()
 {
-    // fill your code here for the combat mode    
+    // fill your code here for the combat mode 
+    byte fl,fr,rl,rr;
+    byte fl_max,fl_min,fr_max,fr_min,rl_max,rl_min,rr_max,rr_min;
+    byte flTH=0,frTH,rlTH,rrTH; //ldr thresholds
+    byte tbfl, tbfr, tbrl, tbrr;
+    byte tmp=0; // ldr adc variables 
+    byte black=0;
+    byte white=1;
+     
+    
+    // speed control
+    pwLeft = 75;//(word)(0.8*defaultSpeed);
+    pwRight =75;//(word)(0.8*defaultSpeed);
+    
+    while(tmp==0){
+    
+        // threshold    
+        if (touchBarFrontLeft) {
+            // on the white surface
+            fl_max = ADCRead(0x00);
+            fr_max = ADCRead(0x01);
+            rl_max = ADCRead(0x02);
+            rr_max = ADCRead(0x03);
+    
+            while (touchBarFrontLeft) {
+            }
+    
+            // on the black surface
+            fl_min = ADCRead(0x00);
+            fr_min = ADCRead(0x01);
+            rl_min = ADCRead(0x02);
+            rr_min = ADCRead(0x03);
+            tmp=1;    
+        }
+    }
+  
+    flTH = (byte)((fl_max + fl_min)/2.0);
+    frTH = (byte)((fr_max + fr_min)/2.0);
+    rlTH = (byte)((rl_max + rl_min)/2.0); 
+    rrTH = (byte)((rl_max + rr_min)/2.0);
+//}        
+ 
+    mouseMode = MOUSE_MODE_COMBAT;
+  
+    for (;;) {   
+        
+        // ADC
+        tmp = ADCRead(0x00);
+        fl = tmp < flTH ? 0 : 1; // 1 -> white; 0 -> black
+       
+        tmp = ADCRead(0x01);
+        fr = tmp < frTH ? 0 : 1;
+       
+        tmp = ADCRead(0x02); 
+        rl = tmp < rlTH ? 0 : 1;
+       
+        tmp = ADCRead(0x03);
+        rr = tmp < rrTH ? 0 : 1;
+       
+        tbfl = touchBarFrontLeft;
+        tbfr = touchBarFrontRight;
+        tbrr = touchBarRearRight;
+        tbrl = touchBarRearLeft;      
+
+        if (!infraredFrontLeft && !infraredFrontRight && !infraredRearLeft && !infraredRearRight) {       
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }
+            /*else {
+                // both bars are touched; avoid front obstacle 
+                ControlMouse(MOUSE_ACTION_STOP); 
+                Delay(500);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(500);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
+            }*/
+            ControlMouse(MOUSE_ACTION_FORWARD);
+        } else if (!infraredFrontLeft && infraredFrontRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }      
+        
+            ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            Delay(200);                        
+         /*else {
+            // just for TEST!
+            ControlMouse(MOUSE_ACTION_STOP);
+            Delay(500);
+        }  */
+        
+      } else if (infraredFrontLeft && !infraredFrontRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }      
+            //ControlMouse(MOUSE_ACTION_REVERSE);
+            //Delay(200);
+            ControlMouse(MOUSE_ACTION_TURNLEFT);
+            Delay(200);                
+      } else if (infraredFrontLeft && infraredFrontRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }      
+            //ControlMouse(MOUSE_ACTION_REVERSE);
+            //Delay(200);
+            ControlMouse(MOUSE_ACTION_FORWARD);
+            Delay(200);                  
+      } else if (infraredRearLeft && infraredRearRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }
+              ControlMouse(MOUSE_ACTION_TURNAROUND);
+              Delay(500);      
+           // ControlMouse(MOUSE_ACTION_REVERSE);
+            //Delay(200);
+           // ControlMouse(MOUSE_ACTION_FORWARD);
+            //Delay(200);                  
+      } else if (infraredRearLeft && !infraredRearRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }
+            ControlMouse(MOUSE_ACTION_TURNAROUND);
+            Delay(500);      
+            //ControlMouse(MOUSE_ACTION_REVERSE);
+            //Delay(200);
+            //ControlMouse(MOUSE_ACTION_TURNLEFT);
+            //Delay(200); 
+      } else if (!infraredRearLeft && infraredRearRight) {
+            if (fl == 1 && fr == 1 && rl == 1 && rr == 1 ) {
+                // default
+                while ((tbfl == 1) || (tbfr == 1)) {
+                    // back off
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(200);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);    
+                    tbfl = touchBarFrontLeft;
+                    tbfr = touchBarFrontRight;
+                }
+          
+                if ((tbrl == 1) || (tbrr == 1)) {
+                    ControlMouse(MOUSE_ACTION_BRAKE);
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(50);
+                    ControlMouse(MOUSE_ACTION_REVERSE);
+                    Delay(25);       
+                } else {
+                    ControlMouse(MOUSE_ACTION_FORWARD);
+                    Delay(25);
+                }
+            } else if (fl == 0 || fr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_REVERSE);
+                Delay(50);
+                ControlMouse(MOUSE_ACTION_TURNAROUND);
+                Delay(100);
+            } else if (rl == 0 || rr == 0){
+                ControlMouse(MOUSE_ACTION_BRAKE);
+                ControlMouse(MOUSE_ACTION_FORWARD);
+                Delay(25);
+            }
+            ControlMouse(MOUSE_ACTION_TURNAROUND);
+            Delay(500);      
+            //ControlMouse(MOUSE_ACTION_REVERSE);
+            //Delay(200);
+            //ControlMouse(MOUSE_ACTION_TURNRIGHT);
+            //Delay(200); 
+      }
+       
+     
+      
+        else {
+            // both bars are touched; avoid front obstacle 
+            
+            ControlMouse(MOUSE_ACTION_STOP); 
+            Delay(500);
+            ControlMouse(MOUSE_ACTION_REVERSE);
+            Delay(500);
+            ControlMouse(MOUSE_ACTION_TURNAROUND);	// 180 dgree turn
+        }
+        
+      
+    } // end of for()
 }
 
 

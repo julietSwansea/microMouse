@@ -216,8 +216,8 @@ void main(void)
     tbfl = 1;
     tbfr = 0;
     */
-    tbfr=0;
-    tbfl=1;
+    tbfr=1;
+    tbfl=0;
     if ((tbfl == 0) && (tbfr == 0)) {
         mouseMode = MOUSE_MODE_DEBUG;
         Test();
